@@ -1,0 +1,135 @@
+
+{% extends 'base.html' %}
+
+{% block body %}
+  <section class="header">
+    <h2 class="title">Credit Card Default Prediction!</h2>
+  </section>
+  <hr />
+
+  <div class="content">
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="row">
+        <div class="three columns">
+          {{ form.Limit_bal.label }} {{ form.Limit_bal() }}
+        </div>
+        <div class="three columns">
+          {{ form.Gender.label }} {{ form.Gender() }}
+        </div>
+        <div class="three columns">
+          {{ form.Education.label }} {{ form.Education() }}
+        </div>
+        <div class="three columns">
+          {{ form.Marriage.label }} {{ form.Marriage() }}
+        </div>
+        <div class="three columns">
+          {{ form.Age.label }} {{ form.Age() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_1_monthago.label }} {{ form.Percent_1_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_2_monthago.label }} {{ form.Percent_2_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_3_monthago.label }} {{ form.Percent_3_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_4_monthago.label }} {{ form.Percent_4_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_5_monthago.label }} {{ form.Percent_5_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_6_monthago.label }} {{ form.Percent_6_monthago() }}
+        </div>
+      </div>
+      <div class="row">
+        <button type="submit" class="button-primary">Submit</button>
+      </div>
+    </form>
+    {% if prediction %}
+      <div class="row">
+        <div class="six columns">
+          <h2>Next month's prediction: {{ prediction }}</h2>
+          <img src="{{url_for('static', filename='images/' + prediction + '.png')}}"
+              height="300">
+        </div>
+        <div class="six columns">
+         <!--  Your Chart or any other form of visualizations -->
+         <div id="chart"></div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock body %}
+
+{% block js %}
+  <script type="text/javascript">
+
+        var treeData = {{data | safe}};
+
+// set the dimensions and margins of the diagram
+var margin = {top: 40, right: 90, bottom: 50, left: 90},
+    width = 660 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// declares a tree layout and assigns the size
+var treemap = d3.tree()
+    .size([width, height]);
+
+//  assigns the data to a hierarchy using parent-child relationships
+var nodes = d3.hierarchy(treeData);
+
+// maps the node data to the tree layout
+nodes = treemap(nodes);
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom),
+    g = svg.append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+// adds the links between the nodes
+var link = g.selectAll(".link")
+    .data( nodes.descendants().slice(1))
+  .enter().append("path")
+    .attr("class", "link")
+    .attr("d", function(d) {
+       return "M" + d.x + "," + d.y
+         + "C" + d.x + "," + (d.y + d.parent.y) / 2
+         + " " + d.parent.x + "," +  (d.y + d.parent.y) / 2
+         + " " + d.parent.x + "," + d.parent.y;
+       });
+
+// adds each node as a group
+var node = g.selectAll(".node")
+    .data(nodes.descendants())
+  .enter().append("g")
+    .attr("class", function(d) { 
+      return "node" + 
+        (d.children ? " node--internal" : " node--leaf"); })
+    .attr("transform", function(d) { 
+      return "translate(" + d.x + "," + d.y + ")"; });
+
+// adds the circle to the node
+node.append("circle")
+  .attr("r", 10);
+
+// adds the text to the node
+node.append("text")
+  .attr("dy", ".35em")
+  .attr("y", function(d) { return d.children ? -20 : 20; })
+  .style("text-anchor", "middle")
+  .text(function(d) { return d.data.name; });
+    
+
+  // your JS Code
+  // Your D3 code could be here
+  </script>
+{% endblock js %}

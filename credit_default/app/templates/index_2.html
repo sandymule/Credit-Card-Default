@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<!--<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}"> -->
+<link rel= "stylesheet" type= "text/css" href= "static/style.css">
+<!--
+	Miniport by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>default.io predictor</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Nav -->
+			<nav id="nav">
+				<ul class="container">
+					<li><a href="#top">Top</a></li>
+					<li><a href="#work">Work</a></li>
+					<li><a href="#portfolio">Portfolio</a></li>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+			</nav>
+
+		<!-- Home -->
+			<section class="header">
+    <h2 class="title">Credit Card Default Prediction!</h2>
+  </section>
+  <hr />
+
+  <div class="content">
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="row">
+        <div class="three columns">
+          {{ form.Limit_bal.label }} {{ form.Limit_bal() }}
+        </div>
+        <div class="three columns">
+          {{ form.Gender.label }} {{ form.Gender() }}
+        </div>
+        <div class="three columns">
+          {{ form.Education.label }} {{ form.Education() }}
+        </div>
+        <div class="three columns">
+          {{ form.Marriage.label }} {{ form.Marriage() }}
+        </div>
+        <div class="three columns">
+          {{ form.Age.label }} {{ form.Age() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_1_monthago.label }} {{ form.Percent_1_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_2_monthago.label }} {{ form.Percent_2_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_3_monthago.label }} {{ form.Percent_3_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_4_monthago.label }} {{ form.Percent_4_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_5_monthago.label }} {{ form.Percent_5_monthago() }}
+        </div>
+        <div class="three columns">
+          {{ form.Percent_6_monthago.label }} {{ form.Percent_6_monthago() }}
+        </div>
+      </div>
+      <div class="row">
+        <button type="submit" class="button-primary">Submit</button>
+      </div>
+    </form>
+    {% if prediction %}
+      <div class="row">
+        <div class="six columns">
+          <h2>Next month's prediction: {{ prediction }}</h2>
+          <img src="{{url_for('static', filename='images/' + prediction + '.png')}}"
+              height="300">
+        </div>
+        <div class="six columns">
+         <!--  Your Chart or any other form of visualizations -->
+         <div id="chart"></div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+		
