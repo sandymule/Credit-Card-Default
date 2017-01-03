@@ -13,5 +13,7 @@ Taiwanese Credit Card Default records in 2006
 
 ##iPython Notebooks: 
 CreditCardDef.ipynb - Feature Scaling and Selection
+
 CreditCardDefRE.ipynb - Model Selection, Cost Function Curve, Precision/Accuracy Testing
+
 credit_default/app - Flask app
